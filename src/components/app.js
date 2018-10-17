@@ -23,7 +23,7 @@ class App extends React.Component {
 
   searchReddit(search, limit) {
     let url = `https://www.reddit.com/r/${search}.json?limit=${limit}`;
-
+    console.log(url);
     return this.fetchData(url)
       .then(posts => {
         this.setState({
@@ -33,6 +33,7 @@ class App extends React.Component {
       .catch(console.error);
   }
   fetchData(url) {
+    console.log('fetching data')
     return superagent.get(url)
       .then(result => {
         return result.body;
