@@ -1,34 +1,36 @@
 'use strict';
-//TODO IMPORT REDDIT COMPONANTS}
 
 import React from 'react';
 import superagent from 'superagent';
 
+import Search from './reddit/search';
+import ResultsDetail from './reddit/detail';
 
-const redditAPI = 'https://www.reddit.com/r/';
 
-// results.body.data.children[0]
 
-export default class App extends React.Component {
+class App extends React.Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
-      redditResult: {},
-    }
+      results: [],
+    };
 
     this.searchReddit = this.searchReddit.bind(this);
     this.fetchData = this.fetchData.bind(this);
   }
-  searchReddit(searchFormBoard, searchFormLimit) {
-    let url = `${redditAPI}${searchFormBoard}.json?=${searchFormLimit}`;
+
+  searchReddit(search, limit) {
+    let url = `https://www.reddit.com/r/${search}.json?limit=${limit}`;
 
     return this.fetchData(url)
-      .then(redditResult => {
-        this.setState({ redditResult });
-      });
-
+      .then(posts => {
+        this.setState({
+          results: posts.data.children
+        });
+      })
+      .catch(console.error);
   }
   fetchData(url) {
     return superagent.get(url)
@@ -40,15 +42,13 @@ export default class App extends React.Component {
   render() {
     return (
       <main>
-        {/* <RedditSearch searchMethod={this.searchReddit} />
-        <RedditResultDetail redditResult={this.state.redditResult} /> */}
+        <Search searchMethod={this.searchReddit} />
+        <ResultsDetail results={this.state.results} />
 
       </main>
     );
   }
 
 }
-// function searchReddit(searchFormBoard, searchFormLimit) {
-//   let url = `${redditAPI}${searchFormBoard}.json?=${searchFormLimit}`
-//   console.log(url('tech', 10));
-// }
+export default App;
+
