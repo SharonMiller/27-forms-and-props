@@ -9,12 +9,12 @@ class Search extends React.Component {
     super(props);
 
     this.state = {
-      search: 'all',
-      limit: 25,
+      search: '',
+      limit: 1,
     };
 
     this.handleSearch = this.handleSearch.bind(this);
-    this.handleSubmit = this.handleSearch.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleLimit = this.handleLimit.bind(this);
   }
 
